@@ -1,12 +1,32 @@
 "use client";
 
+import { doc, getFirestore, setDoc } from "firebase/firestore";
 import { signIn, useSession } from "next-auth/react";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect } from "react";
 import { HiBell, HiChat, HiSearch } from "react-icons/hi";
+import app from "../shared/firebaseConfig";
+import { useRouter } from "next/navigation";
 
 function Header() {
   const { data: session } = useSession();
+
+  const router = useRouter();
+
+  const db = getFirestore(app);
+
+  useEffect(() => {
+    const saveUserInfo = async () => {
+      if (session?.user) {
+        await setDoc(doc(db, "user", session.user.email || ""), {
+          userName: session.user.name,
+          email: session.user.email,
+          userImage: session.user.image,
+        });
+      }
+    };
+    saveUserInfo();
+  }, [db, session?.user]);
 
   console.log(session);
 
@@ -22,7 +42,12 @@ function Header() {
       <button className="bg-black text-white p-2 rounded-full px-4">
         Home
       </button>
-      <button className="font-semibold p-2 rounded-full px-4">Create</button>
+      <button
+        className="font-semibold p-2 rounded-full px-4"
+        onClick={() => router.push("/pin-builder")}
+      >
+        Create
+      </button>
       <div className="bg-[#e9e9e9] p-3 gap-3 items-center rounded-full w-full hidden md:flex">
         <HiSearch className="text-[25px] text-gray-500 md:hidden" />
         <input
@@ -36,6 +61,7 @@ function Header() {
 
       {session?.user ? (
         <Image
+          onClick={() => router.push("/" + session?.user?.email)}
           src={session?.user?.image || ""}
           alt="profile image"
           width={50}
