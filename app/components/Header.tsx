@@ -28,15 +28,22 @@ function Header() {
     saveUserInfo();
   }, [db, session?.user]);
 
-  console.log(session);
+  const onCreateClick = () => {
+    if (session) {
+      router.push("/pin-builder");
+    } else {
+      signIn();
+    }
+  };
 
   return (
-    <div className="flex gap-3 md:gap-2 items-center p-6">
+    <div className="flex gap-3 md:gap-2 items-center p-6 justify-between">
       <Image
         src="/logo.png"
         alt="logo"
         width={50}
         height={50}
+        onClick={() => router.push("/")}
         className="hover:bg-gray-300 p-2 rounded-full cursor-pointer"
       />
       <button className="bg-black text-white p-2 rounded-full px-4">
@@ -44,7 +51,7 @@ function Header() {
       </button>
       <button
         className="font-semibold p-2 rounded-full px-4"
-        onClick={() => router.push("/pin-builder")}
+        onClick={() => onCreateClick()}
       >
         Create
       </button>

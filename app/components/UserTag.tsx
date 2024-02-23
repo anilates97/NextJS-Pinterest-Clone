@@ -4,7 +4,14 @@ import { useSession } from "next-auth/react";
 import Image from "next/image";
 import React from "react";
 
-function UserTag() {
+interface Props {
+  user?: {
+    name: string;
+    image: string;
+  };
+}
+
+function UserTag({ user }: Props) {
   const { data: session } = useSession();
   return (
     <div className="mt-8">
