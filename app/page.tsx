@@ -26,7 +26,6 @@ export default function Home() {
 
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
-      console.log(doc.id, " merhaba ", doc.data());
       setListOfPins((pins: any) => [...pins, doc.data()]);
     });
   }, [db]);

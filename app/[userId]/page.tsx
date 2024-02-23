@@ -41,10 +41,7 @@ function Profile({ params }: ProfileParams) {
       const docSnap = await getDoc(docRef);
 
       if (docSnap.exists()) {
-        console.log("userinfo", docSnap.data());
         setUserInfo(docSnap.data() as User);
-      } else {
-        console.log("not found");
       }
     };
     getUserInfo();
@@ -61,7 +58,6 @@ function Profile({ params }: ProfileParams) {
 
       const querySnapshot = await getDocs(q);
       querySnapshot.forEach((doc) => {
-        console.log(doc.id, " => ", doc.data());
         setListOfPins((pins: any) => [...pins, doc.data()]);
       });
     };

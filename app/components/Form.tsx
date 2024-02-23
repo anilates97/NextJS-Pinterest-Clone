@@ -33,7 +33,7 @@ function Form() {
     try {
       const storageRef = ref(storage, "pinterest/" + file.name);
       await uploadBytes(storageRef, file);
-      console.log("File uploaded");
+
       const url = await getDownloadURL(storageRef);
       const postData = {
         title,
@@ -47,7 +47,7 @@ function Form() {
       };
 
       await setDoc(doc(db, "pinterest-post", postId), postData);
-      console.log("saved");
+
       setLoading(true);
       router.push("/" + session?.user?.email);
     } catch (err: any) {

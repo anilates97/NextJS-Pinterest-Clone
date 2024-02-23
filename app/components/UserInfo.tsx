@@ -11,7 +11,6 @@ interface UserInfoParams {
 }
 
 function UserInfo({ userInfo }: UserInfoParams) {
-  console.log(userInfo);
   const router = useRouter();
   const { data: session } = useSession();
 
